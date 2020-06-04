@@ -7,9 +7,10 @@ from sklearn import datasets, svm, metrics
 from sklearn.model_selection import cross_validate, train_test_split
 import joblib
 EXAMPLE = "./Examples"
+DATADIR = "./Dataset"
 CATEGORIES = ['0','1','2','3','4','5','6','7','8','9']
 model_file_name = 'svm_classifier.sav'
-
+training_data = []
 def get_hog_descriptor():
     winSize = (64,64)
     blockSize = (16,16)
@@ -66,6 +67,9 @@ def train():
 
     classifier = svm.SVC(gamma=0.001)
     classifier.fit(X_train,y_train)
+    # classifier = joblib.load(model_file_name)
+    print("TEST ACCURACY: ", metrics.accuracy_score(classifier.predict(X_test),y_test))
+    print("TRAIN ACCURACY: ",metrics.accuracy_score(classifier.predict(X_train),y_train))
     joblib.dump(classifier, model_file_name)
 
 
@@ -92,5 +96,4 @@ def testing_examples():
     
 
 
-
-testing_examples()
+train()
